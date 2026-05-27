@@ -1,0 +1,280 @@
+/* ===========================================
+   Laura Tejeda — Visual System
+   Modern warm · architectural · editorial
+   =========================================== */
+
+:root {
+  /* —— Color: warm earth palette —— */
+  --bg: #f5efe6;          /* cream — main canvas */
+  --bg-soft: #ede4d3;     /* sand — secondary surfaces */
+  --bg-deep: #e3d6bf;     /* tan — cards on cream */
+  --paper: #faf6ef;       /* warm white — top of grids */
+
+  --ink: #1f1a14;         /* warm near-black — primary text */
+  --ink-2: #3d342a;       /* coffee — secondary text */
+  --ink-3: #6b5e4f;       /* taupe — captions */
+  --ink-4: #a39788;       /* sand-gray — meta */
+
+  --line: #d8cdb8;        /* hairline */
+  --line-soft: #e8dec9;
+
+  --accent: #8b3a13;      /* terracotta — single hero accent */
+  --accent-2: #c47a3e;    /* ochre — secondary accent */
+  --accent-soft: #d9a87a;
+
+  --olive: #6e6a3f;       /* a tertiary, used sparingly */
+
+  /* —— Type —— */
+  --serif: "Fraunces", "Cormorant Garamond", Georgia, serif; /* fallback only */
+  --display: "Instrument Serif", "Cormorant Garamond", Georgia, serif;
+  --sans: "Inter Tight", "Inter", -apple-system, system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* —— Spacing scale —— */
+  --gutter: clamp(20px, 4vw, 56px);
+  --section: clamp(80px, 12vw, 160px);
+  --radius: 2px;
+  --radius-card: 4px;
+
+  /* —— Motion —— */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* —— Reset / base —— */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "ss01", "cv11";
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+
+/* —— Typography utilities —— */
+.t-display {
+  font-family: var(--display);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+.t-h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(48px, 8vw, 128px);
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+}
+.t-h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(36px, 5vw, 72px);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+.t-h3 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+.t-body {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: clamp(15px, 1.05vw, 17px);
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+.t-body-lg {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  color: var(--ink-2);
+}
+.t-eyebrow {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-3);
+}
+.t-meta {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+.t-caption {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--ink-3);
+  letter-spacing: 0;
+}
+
+/* —— Italic accent for display —— */
+em.accent, .italic-accent {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+/* —— Container —— */
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+.container-narrow {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* —— Hairline —— */
+.hr { height: 1px; background: var(--line); border: 0; margin: 0; }
+
+/* —— Buttons —— */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  transition: all 240ms var(--ease);
+  background: transparent;
+  color: var(--ink);
+}
+.btn:hover { background: var(--ink); color: var(--bg); }
+.btn-fill {
+  background: var(--ink);
+  color: var(--bg);
+}
+.btn-fill:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.btn-ghost {
+  border-color: var(--line);
+  color: var(--ink-2);
+}
+.btn-ghost:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn .arrow { transition: transform 240ms var(--ease); display: inline-block; }
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* —— Image placeholder system —— */
+.ph {
+  position: relative;
+  background: var(--bg-deep);
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+.ph::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, transparent 49%, rgba(31,26,20,0.04) 49%, rgba(31,26,20,0.04) 51%, transparent 51%),
+    linear-gradient(45deg, transparent 49%, rgba(31,26,20,0.04) 49%, rgba(31,26,20,0.04) 51%, transparent 51%);
+  background-size: 28px 28px;
+  opacity: 0.6;
+}
+.ph[data-tone="warm"] { background: linear-gradient(160deg, #d9c5a3 0%, #b89976 100%); }
+.ph[data-tone="cool"] { background: linear-gradient(160deg, #c9c2b0 0%, #8c8775 100%); }
+.ph[data-tone="terracotta"] { background: linear-gradient(160deg, #c8855e 0%, #8b3a13 100%); }
+.ph[data-tone="stone"] { background: linear-gradient(160deg, #cdc6b9 0%, #9b9382 100%); }
+.ph[data-tone="dark"] { background: linear-gradient(160deg, #4a3f33 0%, #261e15 100%); }
+.ph[data-tone="olive"] { background: linear-gradient(160deg, #a8a274 0%, #5e5a35 100%); }
+.ph[data-tone="cream"] { background: linear-gradient(160deg, #efe6d3 0%, #d4c4a3 100%); }
+.ph[data-tone="clay"] { background: linear-gradient(160deg, #b87a5f 0%, #6b3f29 100%); }
+
+.ph[data-tone="warm"]::before,
+.ph[data-tone="cool"]::before,
+.ph[data-tone="terracotta"]::before,
+.ph[data-tone="stone"]::before,
+.ph[data-tone="dark"]::before,
+.ph[data-tone="olive"]::before,
+.ph[data-tone="cream"]::before,
+.ph[data-tone="clay"]::before { opacity: 0; }
+
+/* Subtle architectural lines on placeholders */
+.ph .ph-mark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.4);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.ph[data-tone="cream"] .ph-mark,
+.ph[data-tone="warm"] .ph-mark { color: rgba(31,26,20,0.3); }
+
+/* Architectural lines decoration */
+.ph-arch {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.ph-arch svg {
+  width: 100%;
+  height: 100%;
+  opacity: 0.18;
+}
+
+/* —— Lightbox / modal —— */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 12, 8, 0.92);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 280ms var(--ease);
+}
+.modal-backdrop.open { opacity: 1; pointer-events: auto; }
+
+/* —— Animations —— */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.fade-up { animation: fadeUp 700ms var(--ease) both; }
+.fade-in { animation: fade 700ms var(--ease) both; }
+
+/* —— Scrollbar (subtle) —— */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-4); }
+
+/* —— Selection —— */
+::selection { background: var(--accent); color: var(--bg); }
