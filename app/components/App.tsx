@@ -3,7 +3,6 @@
 // ============================================
 "use client";
 import { useState, useEffect, useSyncExternalStore } from "react";
-import { CONTENT } from "@/app/content";
 import { LT, LTProvider, type Lang } from "./Shared";
 import { Home } from "./Home";
 import { ProjectIndex } from "./Projects";
@@ -11,7 +10,8 @@ import { ProjectDetail } from "./Detail";
 import { Studio, ServicesPage } from "./Studio";
 import { Contact } from "./Contact";
 
-type Route = { name: string; projectId?: string | null };
+type Segment = "residential" | "commercial";
+type Route = { name: string; projectId?: string | null; segment?: Segment };
 
 // ——— Language store (persisted in localStorage, SSR-safe) ———
 const langListeners = new Set<() => void>();
@@ -50,27 +50,24 @@ export default function App() {
 
   const onNav = (id: string) => {
     if (id === "home") setRoute({ name: "home" });
-    else if (id === "architecture") setRoute({ name: "architecture" });
-    else if (id === "interiors") setRoute({ name: "interiors" });
+    else if (id === "projects" || id === "residential") setRoute({ name: "projects", segment: "residential" });
+    else if (id === "commercial") setRoute({ name: "projects", segment: "commercial" });
     else if (id === "studio") setRoute({ name: "studio" });
     else if (id === "services") setRoute({ name: "services" });
     else if (id === "contact") setRoute({ name: "contact" });
   };
   const onOpenProject = (id: string) => setRoute({ name: "project", projectId: id });
 
-  const currentNavId = route.name === "project"
-    ? CONTENT.projects.find((p) => p.id === route.projectId)?.category || "home"
-    : route.name;
+  const currentNavId = route.name === "project" ? "projects" : route.name;
 
   return (
     <LTProvider value={{ lang, setLang, onNav, onOpenProject }}>
       <div data-screen-label={`Laura Tejeda — ${route.name}`}>
         <LT.Nav current={currentNavId} lang={lang} onLang={setLang} onNav={onNav} />
 
-        <div key={`${route.name}-${route.projectId}-${lang}`} className="fade-in">
+        <div key={`${route.name}-${route.projectId}-${route.segment}-${lang}`} className="fade-in">
           {route.name === "home" && <Home onNav={onNav} onOpenProject={onOpenProject} />}
-          {route.name === "architecture" && <ProjectIndex category="architecture" onNav={onNav} onOpenProject={onOpenProject} />}
-          {route.name === "interiors" && <ProjectIndex category="interiors" onNav={onNav} onOpenProject={onOpenProject} />}
+          {route.name === "projects" && <ProjectIndex segment={route.segment ?? "residential"} onNav={onNav} onOpenProject={onOpenProject} />}
           {route.name === "project" && <ProjectDetail projectId={route.projectId} onNav={onNav} onOpenProject={onOpenProject} />}
           {route.name === "studio" && <Studio />}
           {route.name === "services" && <ServicesPage />}

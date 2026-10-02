@@ -106,9 +106,6 @@ function Studio() {
           </div>
         </div>
       </section>
-
-      <Services />
-      <Process />
     </main>
   );
 }
