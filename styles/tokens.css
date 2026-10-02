@@ -278,3 +278,140 @@ em.accent, .italic-accent {
 
 /* —— Selection —— */
 ::selection { background: var(--accent); color: var(--bg); }
+
+/* ===========================================
+   Responsive — tablet & mobile
+   The components set grid-template-columns inline via style={};
+   we override with !important inside media queries below.
+   =========================================== */
+
+/* —— Tablet & smaller (≤ 960px) —— */
+@media (max-width: 960px) {
+  /* Navigation: hide desktop links, show hamburger */
+  .lt-nav-desktop { display: none !important; }
+  .lt-nav-mobile-toggle { display: flex !important; }
+
+  /* Hero: stack text + image vertically */
+  .lt-hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+  .lt-hero-grid > div:first-child {
+    min-height: auto !important;
+  }
+  .lt-hero-grid > div:last-child {
+    min-height: 60vh !important;
+  }
+
+  /* Multi-column grids → single column */
+  .lt-work-grid,
+  .lt-sections-grid,
+  .lt-manifesto-grid,
+  .lt-index-head,
+  .lt-detail-head,
+  .lt-detail-body,
+  .lt-next-grid,
+  .lt-studio-grid,
+  .lt-services-head,
+  .lt-services-grid,
+  .lt-process-head,
+  .lt-contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  /* Sidebar: don't stick on mobile (it overlaps content) */
+  .lt-detail-sidebar {
+    position: static !important;
+  }
+  .lt-studio-grid > div:first-child {
+    position: static !important;
+  }
+
+  /* Footer 4-col → 2-col */
+  .lt-footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 40px !important;
+  }
+
+  /* Press strip 4-col → 2-col */
+  .lt-press-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 24px !important;
+  }
+
+  /* Team grid 3-col → 2-col */
+  .lt-team-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 24px !important;
+  }
+
+  /* Services grid items: remove side padding/border so they don't get squeezed */
+  .lt-services-grid > div {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border-left: none !important;
+  }
+
+  /* Process rows: stack instead of 4-col table layout */
+  .lt-process-row {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    padding: 32px 0 !important;
+  }
+
+  /* Project index masonry: force 1 column */
+  .lt-index-grid {
+    grid-template-columns: 1fr !important;
+    row-gap: 48px !important;
+  }
+  .lt-index-cell {
+    grid-column: 1 / -1 !important;
+    margin-top: 0 !important;
+  }
+
+  /* ProjectCard meta row: stack title and type vertically */
+  .lt-card-meta-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 6px !important;
+  }
+  .lt-card-type {
+    white-space: normal !important;
+  }
+}
+
+/* —— Phone (≤ 600px) — tighter padding, smaller spacing —— */
+@media (max-width: 600px) {
+  :root {
+    --gutter: 20px;
+    --section: 64px;
+  }
+
+  /* Footer 2-col → 1-col on phone */
+  .lt-footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  /* Press strip 2-col → 1-col on phone */
+  .lt-press-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Team grid 2-col → 1-col on phone */
+  .lt-team-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Nav: smaller logo & header */
+  header .container {
+    height: 60px !important;
+  }
+
+  /* Buttons: slightly smaller on phone */
+  .btn {
+    padding: 12px 18px;
+    font-size: 13px;
+  }
+}

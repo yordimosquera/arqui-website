@@ -182,7 +182,7 @@ function ProjectCard({ project, large, onClick, compact }: { project: Project; l
           {project.category === "architecture" ? (lang === "es" ? "Arquitectura" : "Architecture") : (lang === "es" ? "Interiorismo" : "Interiors")}
         </div>
       </div>
-      <div style={{ marginTop: 18, display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16 }}>
+      <div className="lt-card-meta-row" style={{ marginTop: 18, display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16 }}>
         <div>
           <h3 style={{ margin: 0, fontFamily: "var(--display)", fontStyle: "italic", fontSize: large ? 32 : 26, lineHeight: 1.05, letterSpacing: "-0.015em" }}>
             {LT.pick(project.title, lang)}
@@ -191,7 +191,7 @@ function ProjectCard({ project, large, onClick, compact }: { project: Project; l
             {project.location} — {project.year}
           </p>
         </div>
-        <span style={{ fontFamily: "var(--mono)", fontSize: 12, color: "var(--ink-3)", whiteSpace: "nowrap" }}>
+        <span className="lt-card-type" style={{ fontFamily: "var(--mono)", fontSize: 12, color: "var(--ink-3)", whiteSpace: "nowrap" }}>
           {LT.pick(project.type, lang)}
         </span>
       </div>
