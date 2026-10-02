@@ -21,8 +21,7 @@ export const CONTENT  = {
       heroLine3: "el Caribe",
       heroSub: "Estudio independiente de arquitectura e interiorismo, fundado en Barranquilla. Trabajamos con materiales locales, luz natural y la lentitud que pide cada lugar.",
       navHome: "Inicio",
-      navArch: "Arquitectura",
-      navInt: "Interiorismo",
+      navProjects: "Proyectos",
       navAbout: "Estudio",
       navServices: "Servicios",
       navContact: "Contacto",
@@ -32,10 +31,12 @@ export const CONTENT  = {
       featuredAll: "Ver todos los proyectos",
 
       indexEyebrow: "Trabajo",
-      indexArchTitle: "Arquitectura",
-      indexArchSub: "Casas, pabellones y obra nueva en el Caribe colombiano.",
-      indexIntTitle: "Interiorismo",
-      indexIntSub: "Apartamentos, restaurantes y espacios comerciales con una lectura cálida del lugar.",
+      indexTitle: "Proyectos",
+      indexSub: "Arquitectura e interiorismo en el Caribe colombiano, del encargo doméstico al espacio público.",
+      segResidential: "Residenciales",
+      segResidentialSub: "Casas, apartamentos y renovaciones pensadas para habitar el clima del Caribe.",
+      segCommercial: "Comerciales",
+      segCommercialSub: "Restaurantes, tiendas, galerías y equipamientos con una lectura cálida del lugar.",
 
       manifestoEyebrow: "Manifiesto",
       manifestoTitle: "Construir despacio, habitar bien.",
@@ -60,6 +61,7 @@ export const CONTENT  = {
       contactBody: "Cuéntanos sobre el lugar, el programa y los tiempos. Respondemos en menos de tres días hábiles.",
       contactNamePlaceholder: "Tu nombre",
       contactEmailPlaceholder: "Correo electrónico",
+      contactPhonePlaceholder: "Número de teléfono",
       contactSubjectPlaceholder: "Tipo de proyecto",
       contactMessagePlaceholder: "Cuéntanos sobre tu proyecto, el lugar, los plazos…",
       contactSend: "Enviar mensaje",
@@ -97,8 +99,7 @@ export const CONTENT  = {
       heroLine3: "the Caribbean",
       heroSub: "Independent architecture and interior design studio, based in Barranquilla. We work with local materials, daylight, and the patience each place asks for.",
       navHome: "Home",
-      navArch: "Architecture",
-      navInt: "Interiors",
+      navProjects: "Projects",
       navAbout: "Studio",
       navServices: "Services",
       navContact: "Contact",
@@ -108,10 +109,12 @@ export const CONTENT  = {
       featuredAll: "View all projects",
 
       indexEyebrow: "Work",
-      indexArchTitle: "Architecture",
-      indexArchSub: "Houses, pavilions and new builds across the Colombian Caribbean.",
-      indexIntTitle: "Interiors",
-      indexIntSub: "Apartments, restaurants and retail with a warm reading of place.",
+      indexTitle: "Projects",
+      indexSub: "Architecture and interiors across the Colombian Caribbean, from private homes to public space.",
+      segResidential: "Residential",
+      segResidentialSub: "Houses, apartments and renovations designed to live with the Caribbean climate.",
+      segCommercial: "Commercial",
+      segCommercialSub: "Restaurants, stores, galleries and public facilities with a warm reading of place.",
 
       manifestoEyebrow: "Manifesto",
       manifestoTitle: "Build slowly, inhabit well.",
@@ -136,6 +139,7 @@ export const CONTENT  = {
       contactBody: "Tell us about the place, the brief and the timing. We reply within three working days.",
       contactNamePlaceholder: "Your name",
       contactEmailPlaceholder: "Email",
+      contactPhonePlaceholder: "Phone number",
       contactSubjectPlaceholder: "Project type",
       contactMessagePlaceholder: "Tell us about your project, the place, timelines…",
       contactSend: "Send message",
@@ -173,6 +177,7 @@ export const CONTENT  = {
     {
       id: "casa-palmar",
       category: "architecture",
+      segment: "residential",
       featured: true,
       tone: "warm",
       title: { es: "Casa Palmar", en: "Palmar House" },
@@ -204,6 +209,7 @@ export const CONTENT  = {
     {
       id: "pabellon-mangle",
       category: "architecture",
+      segment: "commercial",
       featured: true,
       tone: "olive",
       title: { es: "Pabellón Mangle", en: "Mangrove Pavilion" },
@@ -233,6 +239,7 @@ export const CONTENT  = {
     {
       id: "casa-tres-arboles",
       category: "architecture",
+      segment: "residential",
       featured: false,
       tone: "stone",
       title: { es: "Casa Tres Árboles", en: "Three Trees House" },
@@ -261,6 +268,7 @@ export const CONTENT  = {
     {
       id: "casa-marea",
       category: "architecture",
+      segment: "residential",
       featured: false,
       tone: "cool",
       title: { es: "Casa Marea", en: "Tide House" },
@@ -289,6 +297,7 @@ export const CONTENT  = {
     {
       id: "biblioteca-sotavento",
       category: "architecture",
+      segment: "commercial",
       featured: false,
       tone: "dark",
       title: { es: "Biblioteca Sotavento", en: "Sotavento Library" },
@@ -319,6 +328,7 @@ export const CONTENT  = {
     {
       id: "apartamento-conde",
       category: "interiors",
+      segment: "residential",
       featured: true,
       tone: "cream",
       title: { es: "Apartamento Conde", en: "Conde Apartment" },
@@ -349,6 +359,7 @@ export const CONTENT  = {
     {
       id: "restaurante-mestiza",
       category: "interiors",
+      segment: "commercial",
       featured: true,
       tone: "clay",
       title: { es: "Restaurante Mestiza", en: "Mestiza Restaurant" },
@@ -378,6 +389,7 @@ export const CONTENT  = {
     {
       id: "estudio-galería",
       category: "interiors",
+      segment: "commercial",
       featured: false,
       tone: "stone",
       title: { es: "Estudio Galería 11", en: "Studio Gallery 11" },
@@ -406,6 +418,7 @@ export const CONTENT  = {
     {
       id: "casa-malva",
       category: "interiors",
+      segment: "residential",
       featured: false,
       tone: "warm",
       title: { es: "Casa Malva", en: "Malva House" },
@@ -434,6 +447,7 @@ export const CONTENT  = {
     {
       id: "tienda-corteza",
       category: "interiors",
+      segment: "commercial",
       featured: false,
       tone: "olive",
       title: { es: "Tienda Corteza", en: "Corteza Store" },

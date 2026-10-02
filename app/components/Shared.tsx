@@ -73,8 +73,7 @@ function Nav({ current, lang, onLang, onNav }: { current: string; lang: Lang; on
   }, []);
 
   const items = [
-    { id: "architecture", label: t.navArch },
-    { id: "interiors", label: t.navInt },
+    { id: "projects", label: t.navProjects },
     { id: "studio", label: t.navAbout },
     { id: "services", label: t.navServices },
     { id: "contact", label: t.navContact },
@@ -150,7 +149,7 @@ function Nav({ current, lang, onLang, onNav }: { current: string; lang: Lang; on
 function Footer({ onNav }: { onNav: (id: string) => void }) {
   const t = useT();
   const { lang } = useLT();
-  const navLabels: Record<string, keyof CopyDict> = { architecture: "navArch", interiors: "navInt", studio: "navAbout", services: "navServices", contact: "navContact" };
+  const navLabels: Record<string, keyof CopyDict> = { projects: "navProjects", studio: "navAbout", services: "navServices", contact: "navContact" };
   return (
     <footer style={{ background: "var(--ink)", color: "var(--bg)", marginTop: 120 }}>
       <div className="container" style={{ paddingTop: 96, paddingBottom: 32 }}>
@@ -167,7 +166,7 @@ function Footer({ onNav }: { onNav: (id: string) => void }) {
           <div>
             <div className="t-meta" style={{ color: "rgba(245,239,230,0.5)", marginBottom: 18 }}>{lang === "es" ? "Navegación" : "Navigation"}</div>
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-              {["architecture", "interiors", "studio", "services", "contact"].map(id => (
+              {["projects", "studio", "services", "contact"].map(id => (
                 <li key={id}><a href={`#${id}`} onClick={(e) => { e.preventDefault(); onNav(id); }} style={{ fontSize: 15, color: "rgba(245,239,230,0.85)" }}>{t[navLabels[id]]}</a></li>
               ))}
             </ul>

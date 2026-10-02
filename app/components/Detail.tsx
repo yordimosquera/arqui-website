@@ -27,8 +27,8 @@ function ProjectDetail({ projectId, onNav, onOpenProject }: { projectId: string 
 
   if (!project) return null;
 
-  // next project of same category
-  const sameCat = CONTENT.projects.filter((p) => p.category === project.category);
+  // next project of same segment
+  const sameCat = CONTENT.projects.filter((p) => p.segment === project.segment);
   const idx = sameCat.findIndex((p) => p.id === project.id);
   const next = sameCat[(idx + 1) % sameCat.length];
 
@@ -37,8 +37,8 @@ function ProjectDetail({ projectId, onNav, onOpenProject }: { projectId: string 
       {/* Hero */}
       <section style={{ paddingBottom: 0 }}>
         <div className="container">
-          <button onClick={() => onNav(project.category)} style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--ink-3)", marginBottom: 32 }}>
-            <span>←</span> {project.category === "architecture" ? t.navArch : t.navInt}
+          <button onClick={() => onNav(project.segment)} style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--ink-3)", marginBottom: 32 }}>
+            <span>←</span> {t.navProjects} — {project.segment === "residential" ? t.segResidential : t.segCommercial}
           </button>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "end", marginBottom: 48 }} className="lt-detail-head">

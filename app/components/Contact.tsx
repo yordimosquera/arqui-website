@@ -6,19 +6,19 @@ import { useState } from "react";
 import { CONTENT } from "@/app/content";
 import { LT, useLT } from "./Shared";
 
-type FormState = { name: string; email: string; subject: string; message: string };
+type FormState = { name: string; email: string; phone: string; subject: string; message: string };
 
 function Contact() {
   const t = LT.useT();
   const { lang } = useLT();
-  const [form, setForm] = useState<FormState>({ name: "", email: "", subject: "residential", message: "" });
+  const [form, setForm] = useState<FormState>({ name: "", email: "", phone: "", subject: "residential", message: "" });
   const [sent, setSent] = useState(false);
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSent(true);
     setTimeout(() => setSent(false), 4000);
-    setForm({ name: "", email: "", subject: "residential", message: "" });
+    setForm({ name: "", email: "", phone: "", subject: "residential", message: "" });
   };
 
   const subjects: { v: string; l: { es: string; en: string } }[] = [
@@ -52,6 +52,9 @@ function Contact() {
             </Field>
             <Field label={lang === "es" ? "Correo" : "Email"} required>
               <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder={t.contactEmailPlaceholder} style={inputStyle} />
+            </Field>
+            <Field label={lang === "es" ? "Teléfono" : "Phone"}>
+              <input type="tel" autoComplete="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder={t.contactPhonePlaceholder} style={inputStyle} />
             </Field>
             <Field label={lang === "es" ? "Tipo de proyecto" : "Project type"}>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8, paddingTop: 8 }}>

@@ -141,8 +141,8 @@ function SelectedWork({ onOpenProject, onNav }: { onOpenProject: (id: string) =>
             </h2>
           </div>
           <div style={{ display: "flex", gap: 12 }}>
-            <button className="btn btn-ghost" onClick={() => onNav("architecture")}>{t.navArch} →</button>
-            <button className="btn btn-ghost" onClick={() => onNav("interiors")}>{t.navInt} →</button>
+            <button className="btn btn-ghost" onClick={() => onNav("residential")}>{t.segResidential} →</button>
+            <button className="btn btn-ghost" onClick={() => onNav("commercial")}>{t.segCommercial} →</button>
           </div>
         </div>
 
@@ -226,7 +226,7 @@ function Manifesto() {
   );
 }
 
-// ——— Two big sections (Architecture / Interiors) ———
+// ——— Two big sections (Residential / Commercial) ———
 function Sections({ onNav }: { onNav: (id: string) => void }) {
   const t = LT.useT();
   const { lang } = useLT();
@@ -236,10 +236,10 @@ function Sections({ onNav }: { onNav: (id: string) => void }) {
         <div className="t-eyebrow" style={{ marginBottom: 60 }}>{t.indexEyebrow}</div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }} className="lt-sections-grid">
           {[
-            { id: "architecture", title: t.indexArchTitle, sub: t.indexArchSub, n: "01" },
-            { id: "interiors", title: t.indexIntTitle, sub: t.indexIntSub, n: "02" },
+            { id: "residential", title: t.segResidential, sub: t.segResidentialSub, n: "01" },
+            { id: "commercial", title: t.segCommercial, sub: t.segCommercialSub, n: "02" },
           ].map((s) => {
-            const sample = CONTENT.projects.filter((p) => p.category === s.id).slice(0, 3);
+            const sample = CONTENT.projects.filter((p) => p.segment === s.id).slice(0, 3);
             return (
               <div key={s.id} onClick={() => onNav(s.id)} style={{ cursor: "pointer", border: "1px solid var(--line)", padding: 32, borderRadius: 4, background: "var(--paper)", transition: "all 240ms var(--ease)" }}
                 onMouseEnter={(e) => (e.currentTarget as HTMLDivElement).style.background = "var(--bg-soft)"}
