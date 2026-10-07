@@ -1,5 +1,5 @@
 import "@/styles/tokens.css";
-import "./globals.css";
+import "../globals.css";
 
 export const metadata = {
   title: "Laura Tejeda — Estudio de arquitectura e interiorismo",
