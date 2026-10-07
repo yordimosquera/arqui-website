@@ -39,7 +39,6 @@ const UI_STRINGS = {
   nav: {
     title: "Menú",
     fields: {
-      navHome: ["Inicio", 20],
       navProjects: ["Proyectos", 20],
       navAbout: ["Estudio", 20],
       navServices: ["Servicios", 20],
@@ -49,20 +48,24 @@ const UI_STRINGS = {
   buttons: {
     title: "Botones y enlaces",
     fields: {
-      featuredAll: ["Ver todos los proyectos", 32],
       ctaViewProject: ["Ver proyecto", 24],
-      ctaSchedule: ["Agendar conversación", 32],
       detailBack: ["Volver", 20],
       detailNext: ["Siguiente proyecto", 32],
+      continueTo: ["«Continuar a» (al final del listado de proyectos)", 24],
+      viewPrefix: ["«Ver» (tarjetas de segmento en Inicio)", 12],
     },
   },
   form: {
     title: "Formulario de contacto",
     fields: {
+      contactNameLabel: ["Etiqueta nombre", 24],
+      contactEmailLabel: ["Etiqueta correo", 24],
+      contactPhoneLabel: ["Etiqueta teléfono", 24],
+      contactSubjectLabel: ["Etiqueta tipo de proyecto", 32],
+      contactMessageLabel: ["Etiqueta mensaje", 24],
       contactNamePlaceholder: ["Campo nombre", 40],
       contactEmailPlaceholder: ["Campo correo", 40],
       contactPhonePlaceholder: ["Campo teléfono", 40],
-      contactSubjectPlaceholder: ["Campo tipo de proyecto", 40],
       contactMessagePlaceholder: ["Campo mensaje", 80],
       contactSend: ["Botón enviar", 24],
       contactSent: ["Mensaje de confirmación", 60],
@@ -71,6 +74,7 @@ const UI_STRINGS = {
   project: {
     title: "Ficha de proyecto",
     fields: {
+      detailSpecs: ["Título de la ficha", 20],
       detailLocation: ["Ubicación", 20],
       detailYear: ["Año", 20],
       detailType: ["Tipología", 20],
@@ -83,11 +87,23 @@ const UI_STRINGS = {
       detailAbout: ["Sobre el proyecto", 32],
     },
   },
+  labels: {
+    title: "Etiquetas generales",
+    fields: {
+      categoryArchitecture: ["Categoría arquitectura", 24],
+      categoryInteriors: ["Categoría interiorismo", 24],
+      projectsCount: ["Palabra tras el número de proyectos", 16],
+      processDuration: ["«Duración» en las etapas del proceso", 20],
+    },
+  },
   footer: {
     title: "Pie de página",
     fields: {
       footerNote: ["Nota", 90],
       footerRights: ["Derechos", 50],
+      footerNavTitle: ["Título navegación", 24],
+      footerContactTitle: ["Título contacto", 24],
+      footerFollowTitle: ["Título redes", 24],
     },
   },
 } as const;
