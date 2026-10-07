@@ -16,7 +16,6 @@ function Home({ onNav, onOpenProject }: { onNav: (id: string) => void; onOpenPro
       <SelectedWork onOpenProject={onOpenProject} onNav={onNav} />
       <Manifesto />
       <Sections onNav={onNav} />
-      <PressStrip />
       <ContactCTA onNav={onNav} />
     </main>
   );
@@ -265,27 +264,6 @@ function Sections({ onNav }: { onNav: (id: string) => void }) {
               </div>
             );
           })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ——— Press strip ———
-function PressStrip() {
-  const { lang } = useLT();
-  return (
-    <section style={{ padding: "60px 0", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)" }}>
-      <div className="container">
-        <div className="t-eyebrow" style={{ marginBottom: 28 }}>{lang === "es" ? "Prensa y reconocimientos" : "Press & recognitions"}</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 32 }} className="lt-press-grid">
-          {CONTENT.press.map((p, i) => (
-            <div key={i} style={{ paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-              <div style={{ fontFamily: "var(--display)", fontStyle: "italic", fontSize: 24, letterSpacing: "-0.01em" }}>{p.source}</div>
-              <div className="t-caption" style={{ marginTop: 6 }}>{LT.pick(p.title, lang)}</div>
-              <div style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--ink-4)", marginTop: 10, letterSpacing: "0.1em" }}>{p.year}</div>
-            </div>
-          ))}
         </div>
       </div>
     </section>
