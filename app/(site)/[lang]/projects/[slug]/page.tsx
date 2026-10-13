@@ -5,7 +5,7 @@ import { getLang, pageMetadata } from "@/app/lib/site";
 import { sanityFetch } from "@/sanity/lib/client";
 import { PROJECT_QUERY, PROJECT_SLUGS_QUERY, type ProjectData } from "@/sanity/lib/queries";
 
-type Params = PageProps<"/[lang]/proyectos/[slug]">["params"];
+type Params = PageProps<"/[lang]/projects/[slug]">["params"];
 
 // Projects published after the build are rendered on first visit (dynamicParams defaults to true).
 export async function generateStaticParams() {
@@ -21,12 +21,12 @@ async function getProject(params: Params) {
   return { lang, slug, data: { ...data, project: data.project } };
 }
 
-export async function generateMetadata({ params }: PageProps<"/[lang]/proyectos/[slug]">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/[lang]/projects/[slug]">): Promise<Metadata> {
   const { lang, slug, data } = await getProject(params);
   const { project } = data;
   return pageMetadata({
     lang,
-    path: `/proyectos/${slug}`,
+    path: `/projects/${slug}`,
     title: project.title,
     description: project.subtitle,
     seo: project.seo,
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/proyectos/
   });
 }
 
-export default async function ProjectPage({ params }: PageProps<"/[lang]/proyectos/[slug]">) {
+export default async function ProjectPage({ params }: PageProps<"/[lang]/projects/[slug]">) {
   const { data } = await getProject(params);
   return <ProjectDetail data={data} />;
 }

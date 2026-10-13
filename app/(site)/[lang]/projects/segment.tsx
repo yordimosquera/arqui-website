@@ -1,4 +1,4 @@
-// Shared by /proyectos/residencial and /proyectos/comercial
+// Shared by /projects/residential and /projects/commercial
 import type { Metadata } from "next";
 import { ProjectIndex } from "@/app/components/Projects";
 import { accentText } from "@/app/lib/text";

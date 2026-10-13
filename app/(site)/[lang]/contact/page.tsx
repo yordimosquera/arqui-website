@@ -6,13 +6,13 @@ import { CONTACT_QUERY, type ContactData } from "@/sanity/lib/queries";
 
 const getContact = (lang: string) => sanityFetch<ContactData>(CONTACT_QUERY, { lang });
 
-export async function generateMetadata({ params }: PageProps<"/[lang]/contacto">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/[lang]/contact">): Promise<Metadata> {
   const lang = await getLang(params);
   const [data, { t }] = await Promise.all([getContact(lang), getSite(lang)]);
-  return pageMetadata({ lang, path: "/contacto", title: t.navContact, description: data.body, seo: data.seo });
+  return pageMetadata({ lang, path: "/contact", title: t.navContact, description: data.body, seo: data.seo });
 }
 
-export default async function ContactPage({ params }: PageProps<"/[lang]/contacto">) {
+export default async function ContactPage({ params }: PageProps<"/[lang]/contact">) {
   const lang = await getLang(params);
   return <Contact data={await getContact(lang)} />;
 }

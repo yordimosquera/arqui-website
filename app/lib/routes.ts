@@ -13,30 +13,30 @@ export function isLang(value: string): value is Lang {
 export type Segment = "residential" | "commercial";
 export const SEGMENTS: Segment[] = ["residential", "commercial"];
 
-// Path segments are shared by both languages: /es/proyectos, /en/proyectos.
-const SEGMENT_PATHS: Record<Segment, string> = { residential: "residencial", commercial: "comercial" };
-export const RESERVED_PROJECT_SLUGS = Object.values(SEGMENT_PATHS);
+// Segment pages live at /projects/<segment>, so no project can use these slugs.
+export const RESERVED_PROJECT_SLUGS: string[] = SEGMENTS;
 
+// Path segments are in English for both languages: /es/studio, /en/studio.
 const PAGE_PATHS = {
   home: "",
-  projects: "proyectos/residencial",
-  studio: "estudio",
-  services: "servicios",
-  contact: "contacto",
+  projects: "projects/residential",
+  studio: "studio",
+  services: "services",
+  contact: "contact",
 } as const;
 export type PageId = keyof typeof PAGE_PATHS;
 
 export const href = (lang: Lang, page: PageId) => `/${lang}${PAGE_PATHS[page] ? `/${PAGE_PATHS[page]}` : ""}`;
-export const segmentHref = (lang: Lang, segment: Segment) => `/${lang}/proyectos/${SEGMENT_PATHS[segment]}`;
-export const projectHref = (lang: Lang, slug: string) => `/${lang}/proyectos/${slug}`;
+export const segmentHref = (lang: Lang, segment: Segment) => `/${lang}/projects/${segment}`;
+export const projectHref = (lang: Lang, slug: string) => `/${lang}/projects/${slug}`;
 
-/** Which nav item is active for a pathname like /es/proyectos/casa-palmar. */
+/** Which nav item is active for a pathname like /es/projects/casa-palmar. */
 export function activePage(pathname: string): PageId {
   const first = pathname.split("/")[2] ?? "";
-  if (first === "proyectos") return "projects";
+  if (first === "projects") return "projects";
   const match = (Object.keys(PAGE_PATHS) as PageId[]).find((id) => id !== "home" && PAGE_PATHS[id] === first);
   return match ?? "home";
 }
 
-/** Same page in another language: /es/estudio → /en/estudio */
+/** Same page in another language: /es/studio → /en/studio */
 export const switchLang = (pathname: string, lang: Lang) => pathname.replace(/^\/(es|en)(?=\/|$)/, `/${lang}`);

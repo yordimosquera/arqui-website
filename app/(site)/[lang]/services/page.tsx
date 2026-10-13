@@ -6,13 +6,13 @@ import { SERVICES_QUERY, type ServicesData } from "@/sanity/lib/queries";
 
 const getServices = (lang: string) => sanityFetch<ServicesData>(SERVICES_QUERY, { lang });
 
-export async function generateMetadata({ params }: PageProps<"/[lang]/servicios">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/[lang]/services">): Promise<Metadata> {
   const lang = await getLang(params);
   const [data, { t }] = await Promise.all([getServices(lang), getSite(lang)]);
-  return pageMetadata({ lang, path: "/servicios", title: t.navServices, description: data.servicesIntro, seo: data.seo });
+  return pageMetadata({ lang, path: "/services", title: t.navServices, description: data.servicesIntro, seo: data.seo });
 }
 
-export default async function Services({ params }: PageProps<"/[lang]/servicios">) {
+export default async function Services({ params }: PageProps<"/[lang]/services">) {
   const lang = await getLang(params);
   return <ServicesPage data={await getServices(lang)} />;
 }
