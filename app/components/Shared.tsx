@@ -245,6 +245,10 @@ function Placeholder({ tone = "warm", label, ratio = "4/5", style, children }: P
 }
 
 // ——— Sanity photo, falling back to a placeholder until one is uploaded ———
+/** A photo that actually has an uploaded image. */
+export type GalleryPhoto = NonNullable<Photo> & { asset: { _ref: string } };
+const hasAsset = (p: Photo | undefined): p is GalleryPhoto => Boolean(p?.asset?._ref);
+
 type MediaProps = PlaceholderProps & {
   image: Photo | undefined;
   sizes?: string;
@@ -262,7 +266,7 @@ function Media({ image, sizes = "100vw", priority, fit = "cover", tone, label, r
       <Image
         src={urlFor(image).url()}
         loader={({ width, quality }) => urlFor(image).width(width).quality(quality ?? 75).url()}
-        alt={image.alt ?? ""}
+        alt={image.alt || label || ""}
         fill
         sizes={sizes}
         priority={priority}
@@ -277,5 +281,13 @@ function Media({ image, sizes = "100vw", priority, fit = "cover", tone, label, r
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-export { useT, Accent, toneFor, pad, Nav, Footer, Logo, Placeholder, Media };
+/** Round prev/next buttons laid over images (home hero, project carousel). */
+const arrowStyle: React.CSSProperties = {
+  width: 44, height: 44, borderRadius: "50%",
+  background: "rgba(245,239,230,0.92)", color: "var(--ink)",
+  display: "flex", alignItems: "center", justifyContent: "center",
+  backdropFilter: "blur(6px)",
+};
+
+export { useT, Accent, toneFor, pad, arrowStyle, hasAsset, Nav, Footer, Logo, Placeholder, Media };
 export const LT = { useT, Accent, Nav, Footer, Logo, Placeholder, Media };

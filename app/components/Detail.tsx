@@ -5,28 +5,32 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { LT, pad, toneFor, useSite } from "./Shared";
+import { hasAsset, LT, pad, toneFor, useSite, type GalleryPhoto } from "./Shared";
+import { Carousel } from "./Carousel";
 import { projectHref, segmentHref } from "@/app/lib/routes";
-import type { Photo, ProjectData, ProjectDetailData } from "@/sanity/lib/queries";
+import type { ProjectData, ProjectDetailData } from "@/sanity/lib/queries";
 
-type GalleryPhoto = NonNullable<Photo>;
 
 function ProjectDetail({ data }: { data: ProjectData & { project: ProjectDetailData } }) {
   const { lang, t } = useSite();
   const { project, siblings, segments } = data;
-  const gallery = project.gallery ?? [];
-  const [lightbox, setLightbox] = useState<number | null>(null); // index or null
+  const gallery = (project.gallery ?? []).filter(hasAsset);
+  // Carousel + lightbox: cover first, then the gallery (cover not repeated if it's also in the gallery)
+  const photos = [project.cover, ...gallery]
+    .filter(hasAsset)
+    .filter((p, i, all) => all.findIndex((q) => q.asset._ref === p.asset._ref) === i);
+  const [lightbox, setLightbox] = useState<number | null>(null); // index in `photos` or null
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (lightbox === null || gallery.length === 0) return;
+      if (lightbox === null || photos.length === 0) return;
       if (e.key === "Escape") setLightbox(null);
-      if (e.key === "ArrowRight") setLightbox((i) => ((i ?? 0) + 1) % gallery.length);
-      if (e.key === "ArrowLeft") setLightbox((i) => ((i ?? 0) - 1 + gallery.length) % gallery.length);
+      if (e.key === "ArrowRight") setLightbox((i) => ((i ?? 0) + 1) % photos.length);
+      if (e.key === "ArrowLeft") setLightbox((i) => ((i ?? 0) - 1 + photos.length) % photos.length);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [lightbox, gallery.length]);
+  }, [lightbox, photos.length]);
 
   // next project of same segment
   const idx = siblings.findIndex((p) => p._id === project._id);
@@ -58,62 +62,21 @@ function ProjectDetail({ data }: { data: ProjectData & { project: ProjectDetailD
             </p>
           </div>
 
-          <LT.Media
-            image={project.cover}
-            tone={tone}
-            ratio="16/9"
-            sizes="100vw"
-            priority
-            style={{ cursor: gallery.length ? "zoom-in" : "default" }}
-            label={project.title}
-          >
-            {gallery.length > 0 && <div onClick={() => setLightbox(0)} style={{ position: "absolute", inset: 0 }} />}
-          </LT.Media>
+          <Carousel photos={photos} label={project.title} tone={tone} onOpen={setLightbox} />
         </div>
       </section>
 
-      {/* Gallery + sticky sidebar */}
+      {/* About + sticky specs sidebar */}
       <section style={{ paddingTop: 80, paddingBottom: 60 }}>
         <div className="container lt-detail-body" style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 60, alignItems: "start" }}>
 
-          {/* GALLERY */}
+          {/* ABOUT */}
           <div>
             <div className="t-eyebrow" style={{ marginBottom: 24 }}>{t.detailAbout}</div>
-            <p className="t-body-lg" style={{ marginTop: 0, marginBottom: 64, maxWidth: 640 }}>
+            <p className="t-body-lg" style={{ margin: 0, maxWidth: 640 }}>
               {project.about}
             </p>
 
-            {gallery.length > 0 && (
-              <>
-                <div className="t-eyebrow" style={{ marginBottom: 24 }}>{t.detailGallery} — {pad(gallery.length)}</div>
-
-                {/* editorial gallery layout: a big single every 4, pairs in between */}
-                <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-                  {(() => {
-                    const rows: React.ReactNode[] = [];
-                    let i = 0;
-                    while (i < gallery.length) {
-                      if (i % 4 !== 0 && i + 1 < gallery.length) {
-                        const left = i;
-                        const right = i + 1;
-                        rows.push(
-                          <div key={gallery[i]._key ?? i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
-                            <GalleryItemView item={gallery[left]} ratio="4/5" onClick={() => setLightbox(left)} idx={left} />
-                            <GalleryItemView item={gallery[right]} ratio="4/5" onClick={() => setLightbox(right)} idx={right} />
-                          </div>
-                        );
-                        i += 2;
-                      } else {
-                        const single = i;
-                        rows.push(<GalleryItemView key={gallery[i]._key ?? i} item={gallery[i]} ratio="16/10" onClick={() => setLightbox(single)} idx={single} />);
-                        i++;
-                      }
-                    }
-                    return rows;
-                  })()}
-                </div>
-              </>
-            )}
           </div>
 
           {/* SIDEBAR */}
@@ -161,22 +124,10 @@ function ProjectDetail({ data }: { data: ProjectData & { project: ProjectDetailD
       )}
 
       {/* Lightbox */}
-      {lightbox !== null && gallery[lightbox] && (
-        <Lightbox gallery={gallery} title={project.title} index={lightbox} onClose={() => setLightbox(null)} onChange={setLightbox} />
+      {lightbox !== null && photos[lightbox] && (
+        <Lightbox gallery={photos} title={project.title} index={lightbox} onClose={() => setLightbox(null)} onChange={setLightbox} />
       )}
     </main>
-  );
-}
-
-function GalleryItemView({ item, ratio, onClick, idx }: { item: GalleryPhoto; ratio: string; onClick: () => void; idx: number }) {
-  return (
-    <figure style={{ margin: 0, cursor: "zoom-in" }} onClick={onClick}>
-      <LT.Media image={item} tone={toneFor(idx)} ratio={ratio} sizes="(max-width: 900px) 100vw, 60vw" />
-      <figcaption style={{ marginTop: 12, display: "flex", justifyContent: "space-between", gap: 16 }}>
-        <span className="t-caption">{item.caption}</span>
-        <span style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--ink-4)", letterSpacing: "0.08em" }}>{pad(idx + 1)}</span>
-      </figcaption>
-    </figure>
   );
 }
 

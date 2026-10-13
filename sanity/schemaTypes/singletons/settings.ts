@@ -83,7 +83,6 @@ const UI_STRINGS = {
       detailRole: ["Rol", 20],
       detailTeam: ["Equipo", 20],
       detailPhotos: ["Fotografía", 20],
-      detailGallery: ["Galería", 20],
       detailAbout: ["Sobre el proyecto", 32],
     },
   },

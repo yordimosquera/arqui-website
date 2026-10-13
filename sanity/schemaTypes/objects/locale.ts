@@ -3,9 +3,9 @@
 // ===========================================
 import { defineField, defineType } from "sanity";
 
-type LocaleOptions = { maxLength?: number };
+type LocaleOptions = { maxLength?: number; optional?: boolean };
 
-function localeFields(kind: "string" | "text", { maxLength }: LocaleOptions = {}) {
+function localeFields(kind: "string" | "text", { maxLength, optional }: LocaleOptions = {}) {
   const rows = kind === "text" ? 4 : undefined;
   return [
     defineField({
@@ -14,7 +14,7 @@ function localeFields(kind: "string" | "text", { maxLength }: LocaleOptions = {}
       type: kind,
       rows,
       validation: (rule) => {
-        let r = rule.required().error("El texto en español es obligatorio.");
+        let r = optional ? rule : rule.required().error("El texto en español es obligatorio.");
         if (maxLength) r = r.max(maxLength).error(`Máximo ${maxLength} caracteres para que no se desborde el diseño.`);
         return r;
       },
@@ -25,7 +25,7 @@ function localeFields(kind: "string" | "text", { maxLength }: LocaleOptions = {}
       type: kind,
       rows,
       validation: (rule) => {
-        let r = rule.required().warning("Falta la traducción al inglés; se mostrará el texto en español.");
+        let r = optional ? rule : rule.required().warning("Falta la traducción al inglés; se mostrará el texto en español.");
         if (maxLength) r = r.max(maxLength).error(`Máximo ${maxLength} caracteres para que no se desborde el diseño.`);
         return r;
       },
@@ -39,6 +39,15 @@ export const localeString = defineType({
   type: "object",
   options: { columns: 2 },
   fields: localeFields("string"),
+});
+
+/** Same as localeString, but both languages may be left empty. */
+export const optionalLocaleString = defineType({
+  name: "optionalLocaleString",
+  title: "Texto opcional (ES / EN)",
+  type: "object",
+  options: { columns: 2 },
+  fields: localeFields("string", { optional: true }),
 });
 
 export const localeText = defineType({

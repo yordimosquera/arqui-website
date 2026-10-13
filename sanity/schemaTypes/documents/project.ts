@@ -81,7 +81,7 @@ export const project = defineType({
     defineField({
       name: "gallery",
       title: "Galería",
-      description: "Arrastra las fotos para cambiar el orden.",
+      description: "Fotos del carrusel, después de la portada. Arrastra para cambiar el orden.",
       type: "array",
       group: "images",
       of: [defineArrayMember({ type: "photo" })],

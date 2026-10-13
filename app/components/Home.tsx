@@ -5,7 +5,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { LT, pad, toneFor, useSite } from "./Shared";
+import { arrowStyle, LT, pad, toneFor, useSite } from "./Shared";
 import { href, projectHref, segmentHref, type Segment } from "@/app/lib/routes";
 import type { HomeData, ProjectCard as ProjectCardData } from "@/sanity/lib/queries";
 
@@ -125,13 +125,6 @@ function Hero({ page, featured }: { page: Page; featured: ProjectCardData[] }) {
     </section>
   );
 }
-
-const arrowStyle: React.CSSProperties = {
-  width: 44, height: 44, borderRadius: "50%",
-  background: "rgba(245,239,230,0.92)", color: "var(--ink)",
-  display: "flex", alignItems: "center", justifyContent: "center",
-  backdropFilter: "blur(6px)",
-};
 
 // ——— Selected work strip ———
 function SelectedWork({ page, segments, featured }: { page: Page; segments: HomeData["segments"]; featured: ProjectCardData[] }) {
