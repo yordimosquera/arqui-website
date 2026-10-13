@@ -1,5 +1,6 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 import { localeStringField, localeTextField } from "../objects/locale";
+import { RESERVED_PROJECT_SLUGS } from "../../../app/lib/routes";
 
 export const CATEGORIES = [
   { title: "Arquitectura", value: "architecture" },
@@ -30,7 +31,12 @@ export const project = defineType({
       type: "slug",
       group: "content",
       options: { source: "title.es", maxLength: 60 },
-      validation: (rule) => rule.required(),
+      validation: (rule) =>
+        rule.required().custom((value) =>
+          value?.current && RESERVED_PROJECT_SLUGS.includes(value.current)
+            ? `«${value.current}» está reservado para el listado de proyectos; elige otra dirección.`
+            : true,
+        ),
     }),
     defineField({
       name: "category",

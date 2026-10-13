@@ -2,44 +2,36 @@
 // Laura Tejeda — Contact page
 // ============================================
 "use client";
-import { useState } from "react";
-import { CONTENT } from "@/app/content";
-import { LT, useLT } from "./Shared";
+import { Fragment, useState } from "react";
+import { LT, useSite } from "./Shared";
+import type { ContactData } from "@/sanity/lib/queries";
 
 type FormState = { name: string; email: string; phone: string; subject: string; message: string };
 
-function Contact() {
-  const t = LT.useT();
-  const { lang } = useLT();
-  const [form, setForm] = useState<FormState>({ name: "", email: "", phone: "", subject: "residential", message: "" });
+function Contact({ data }: { data: ContactData }) {
+  const { t, settings } = useSite();
+  const subjects = data.subjects ?? [];
+  const empty: FormState = { name: "", email: "", phone: "", subject: subjects[0]?._key ?? "", message: "" };
+  const [form, setForm] = useState<FormState>(empty);
   const [sent, setSent] = useState(false);
 
+  // TODO (phase 4): send the message by email instead of only showing the confirmation.
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSent(true);
     setTimeout(() => setSent(false), 4000);
-    setForm({ name: "", email: "", phone: "", subject: "residential", message: "" });
+    setForm(empty);
   };
-
-  const subjects: { v: string; l: { es: string; en: string } }[] = [
-    { v: "residential", l: { es: "Vivienda nueva", en: "New house" } },
-    { v: "renovation", l: { es: "Renovación / interiorismo", en: "Renovation / interiors" } },
-    { v: "commercial", l: { es: "Comercial / hospitalidad", en: "Commercial / hospitality" } },
-    { v: "consulting", l: { es: "Consultoría", en: "Consulting" } },
-    { v: "other", l: { es: "Otro", en: "Other" } },
-  ];
 
   return (
     <main style={{ paddingTop: 140 }}>
       <section style={{ paddingBottom: 60 }}>
         <div className="container">
-          <div className="t-eyebrow" style={{ marginBottom: 32 }}>{t.contactEyebrow}</div>
+          <div className="t-eyebrow" style={{ marginBottom: 32 }}>{data.eyebrow}</div>
           <h1 className="t-h1" style={{ margin: 0, maxWidth: 1100 }}>
-            {lang === "es" ? "¿Tienes un " : "Have a "}
-            <em className="italic-accent">{lang === "es" ? "proyecto" : "project"}</em>
-            {lang === "es" ? " en mente?" : " in mind?"}
+            <LT.Accent value={data.title} />
           </h1>
-          <p className="t-body-lg" style={{ marginTop: 32, maxWidth: 640 }}>{t.contactBody}</p>
+          <p className="t-body-lg" style={{ marginTop: 32, maxWidth: 640 }}>{data.body}</p>
         </div>
       </section>
 
@@ -47,29 +39,31 @@ function Contact() {
         <div className="container lt-contact-grid" style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 80, alignItems: "start" }}>
           {/* FORM */}
           <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-            <Field label={lang === "es" ? "Nombre" : "Name"} required>
+            <Field label={t.contactNameLabel} required>
               <input type="text" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder={t.contactNamePlaceholder} style={inputStyle} />
             </Field>
-            <Field label={lang === "es" ? "Correo" : "Email"} required>
+            <Field label={t.contactEmailLabel} required>
               <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder={t.contactEmailPlaceholder} style={inputStyle} />
             </Field>
-            <Field label={lang === "es" ? "Teléfono" : "Phone"}>
+            <Field label={t.contactPhoneLabel}>
               <input type="tel" autoComplete="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder={t.contactPhonePlaceholder} style={inputStyle} />
             </Field>
-            <Field label={lang === "es" ? "Tipo de proyecto" : "Project type"}>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, paddingTop: 8 }}>
-                {subjects.map((s) => (
-                  <button key={s.v} type="button" onClick={() => setForm({ ...form, subject: s.v })} style={{
-                    padding: "10px 16px",
-                    border: "1px solid " + (form.subject === s.v ? "var(--ink)" : "var(--line)"),
-                    background: form.subject === s.v ? "var(--ink)" : "transparent",
-                    color: form.subject === s.v ? "var(--bg)" : "var(--ink-2)",
-                    borderRadius: 999, fontSize: 13, transition: "all 200ms var(--ease)",
-                  }}>{LT.pick(s.l, lang)}</button>
-                ))}
-              </div>
-            </Field>
-            <Field label={lang === "es" ? "Mensaje" : "Message"} required last>
+            {subjects.length > 0 && (
+              <Field label={t.contactSubjectLabel}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, paddingTop: 8 }}>
+                  {subjects.map((s) => (
+                    <button key={s._key} type="button" aria-pressed={form.subject === s._key} onClick={() => setForm({ ...form, subject: s._key })} style={{
+                      padding: "10px 16px",
+                      border: "1px solid " + (form.subject === s._key ? "var(--ink)" : "var(--line)"),
+                      background: form.subject === s._key ? "var(--ink)" : "transparent",
+                      color: form.subject === s._key ? "var(--bg)" : "var(--ink-2)",
+                      borderRadius: 999, fontSize: 13, transition: "all 200ms var(--ease)",
+                    }}>{s.label}</button>
+                  ))}
+                </div>
+              </Field>
+            )}
+            <Field label={t.contactMessageLabel} required last>
               <textarea required rows={6} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder={t.contactMessagePlaceholder} style={{ ...inputStyle, resize: "vertical", minHeight: 140 }} />
             </Field>
 
@@ -77,52 +71,72 @@ function Contact() {
               <button type="submit" className="btn btn-fill" style={{ padding: "16px 28px" }}>
                 {sent ? t.contactSent : t.contactSend} <span className="arrow">→</span>
               </button>
-              {sent && <span className="t-caption" style={{ color: "var(--accent)" }}>✓ {t.contactSent}</span>}
+              {sent && <span className="t-caption" role="status" style={{ color: "var(--accent)" }}>✓ {t.contactSent}</span>}
             </div>
           </form>
 
           {/* SIDE INFO */}
           <aside>
             <div style={{ background: "var(--bg-soft)", padding: 36, borderRadius: 4 }}>
-              <div className="t-eyebrow" style={{ marginBottom: 24 }}>{lang === "es" ? "Estudio" : "Studio"}</div>
-              <div style={{ fontFamily: "var(--display)", fontStyle: "italic", fontSize: 32, lineHeight: 1.05, letterSpacing: "-0.015em", marginBottom: 24 }}>
-                {lang === "es" ? "Carrera 53 #76-115" : "Carrera 53 #76-115"}<br />
-                Barranquilla, Colombia
-              </div>
+              <div className="t-eyebrow" style={{ marginBottom: 24 }}>{data.studioLabel}</div>
+              {data.address && (
+                <div style={{ fontFamily: "var(--display)", fontStyle: "italic", fontSize: 32, lineHeight: 1.05, letterSpacing: "-0.015em", marginBottom: 24 }}>
+                  <Lines text={data.address} />
+                </div>
+              )}
               <hr className="hr" style={{ background: "var(--line)" }} />
               <div style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 24 }}>
-                <ContactRow label={lang === "es" ? "Correo" : "Email"} value={CONTENT.brand.email} />
-                <ContactRow label={lang === "es" ? "Teléfono" : "Phone"} value={CONTENT.brand.phone} />
-                <ContactRow label="Instagram" value={CONTENT.brand.instagram} />
-                <ContactRow label="Pinterest" value={CONTENT.brand.pinterest} />
+                <ContactRow label={t.contactEmailLabel} value={settings.email} />
+                {settings.phone && <ContactRow label={t.contactPhoneLabel} value={settings.phone} />}
+                {settings.instagram && <ContactRow label="Instagram" value={settings.instagram} />}
+                {settings.pinterest && <ContactRow label="Pinterest" value={settings.pinterest} />}
               </div>
 
-              <hr className="hr" style={{ background: "var(--line)", marginTop: 32 }} />
-              <div style={{ marginTop: 24 }}>
-                <div className="t-eyebrow" style={{ marginBottom: 12 }}>{lang === "es" ? "Horario" : "Hours"}</div>
-                <div className="t-body" style={{ fontSize: 14, marginTop: 0 }}>
-                  {lang === "es" ? "Lunes a viernes" : "Monday to Friday"}<br />
-                  9:00 — 18:00 (GMT-5)
-                </div>
-              </div>
+              {data.hours && (
+                <>
+                  <hr className="hr" style={{ background: "var(--line)", marginTop: 32 }} />
+                  <div style={{ marginTop: 24 }}>
+                    <div className="t-eyebrow" style={{ marginBottom: 12 }}>{data.hoursLabel}</div>
+                    <div className="t-body" style={{ fontSize: 14, marginTop: 0 }}>
+                      <Lines text={data.hours} />
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
-            <div style={{ marginTop: 24, padding: 28, border: "1px solid var(--line)", borderRadius: 4 }}>
-              <div className="t-eyebrow" style={{ marginBottom: 12 }}>{lang === "es" ? "Calendario" : "Calendar"}</div>
-              <p className="t-body" style={{ marginTop: 0, fontSize: 14 }}>
-                {lang === "es"
-                  ? "Recibimos hasta cinco proyectos al año. Actualmente revisamos encargos para 2026."
-                  : "We take up to five projects a year. Currently reviewing commissions for 2026."}
-              </p>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 16, fontSize: 13, color: "var(--accent)" }}>
-                <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "var(--accent)" }}></span>
-                {lang === "es" ? "Aceptando proyectos para 2026" : "Accepting projects for 2026"}
+            {(data.availabilityText || data.availabilityStatus) && (
+              <div style={{ marginTop: 24, padding: 28, border: "1px solid var(--line)", borderRadius: 4 }}>
+                <div className="t-eyebrow" style={{ marginBottom: 12 }}>{data.availabilityLabel}</div>
+                {data.availabilityText && (
+                  <p className="t-body" style={{ marginTop: 0, fontSize: 14 }}>{data.availabilityText}</p>
+                )}
+                {data.availabilityStatus && (
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 16, fontSize: 13, color: "var(--accent)" }}>
+                    <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "var(--accent)" }}></span>
+                    {data.availabilityStatus}
+                  </div>
+                )}
               </div>
-            </div>
+            )}
           </aside>
         </div>
       </section>
     </main>
+  );
+}
+
+/** Multi-line text from a Sanity text field, one <br /> per line break. */
+function Lines({ text }: { text: string }) {
+  return (
+    <>
+      {text.split("\n").map((line, i) => (
+        <Fragment key={i}>
+          {i > 0 && <br />}
+          {line}
+        </Fragment>
+      ))}
+    </>
   );
 }
 
