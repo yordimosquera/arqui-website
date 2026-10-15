@@ -1,7 +1,7 @@
 "use client";
 
 // ===========================================
-// Sanity Studio — mounted at /studio
+// Sanity Studio — mounted at /admin
 // ===========================================
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
@@ -18,7 +18,7 @@ const SINGLETON_ACTIONS = new Set(["publish", "discardChanges", "restore"]);
 export default defineConfig({
   name: "default",
   title: "Laura Tejeda — Estudio",
-  basePath: "/studio",
+  basePath: "/admin",
   projectId,
   dataset,
   plugins: [

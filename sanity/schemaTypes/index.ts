@@ -1,5 +1,5 @@
 import type { SchemaTypeDefinition } from "sanity";
-import { localeString, localeText } from "./objects/locale";
+import { localeString, localeText, optionalLocaleString } from "./objects/locale";
 import { photo } from "./objects/media";
 import { seo } from "./objects/seo";
 import { project } from "./documents/project";
@@ -19,6 +19,7 @@ export const SINGLETONS = [
 export const schemaTypes: SchemaTypeDefinition[] = [
   // objects
   localeString,
+  optionalLocaleString,
   localeText,
   photo,
   seo,

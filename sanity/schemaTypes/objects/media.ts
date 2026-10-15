@@ -14,15 +14,14 @@ export const photo = defineType({
     defineField({
       name: "alt",
       title: "Descripción de la imagen (accesibilidad y Google)",
-      description: "Describe lo que se ve, p. ej. «Patio interior con celosía de madera».",
-      type: "localeString",
-      validation: (rule) => rule.required(),
+      description: "Opcional, pero recomendada. Describe lo que se ve, p. ej. «Patio interior con celosía de madera».",
+      type: "optionalLocaleString",
     }),
     defineField({
       name: "caption",
       title: "Pie de foto",
       description: "Opcional. Aparece debajo de la imagen en la galería.",
-      type: "localeString",
+      type: "optionalLocaleString",
     }),
   ],
   validation: (rule) =>
@@ -35,5 +34,5 @@ export const photo = defineType({
         return `La imagen mide ${width}px de ancho; usa una de al menos ${MIN_WIDTH}px para que se vea nítida.`;
       }
       return true;
-    }),
+    }).warning(), // advises, but doesn't block publishing
 });
